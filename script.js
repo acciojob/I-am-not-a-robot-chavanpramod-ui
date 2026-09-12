@@ -1,4 +1,3 @@
-//your code here
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("img-container");
   const resetButton = document.getElementById("reset");
@@ -12,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Reset state
     container.innerHTML = "";
     selectedImages = [];
+    
+    // Explicitly hide buttons on initial state / reset
     resetButton.style.display = "none";
     verifyButton.style.display = "none";
     resultPara.innerText = "";
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const duplicateIndex = Math.floor(Math.random() * imageClasses.length);
     const imagesToRender = [...imageClasses, imageClasses[duplicateIndex]];
 
-    // Shuffle the 6 images (Fisher-Yates shuffle)
+    // Shuffle images (Fisher-Yates shuffle)
     for (let i = imagesToRender.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [imagesToRender[i], imagesToRender[j]] = [imagesToRender[j], imagesToRender[i]];
@@ -30,8 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     imagesToRender.forEach((className, index) => {
       const img = document.createElement("img");
       img.classList.add(className);
-      img.dataset.class = className; // Store class name for identity comparison
-      img.dataset.index = index; // Unique identifier to prevent double clicking same tile
+      img.dataset.class = className;
+      img.dataset.index = index;
 
       img.addEventListener("click", () => handleImageClick(img));
       container.appendChild(img);
@@ -39,17 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleImageClick(img) {
-    // Prevent selecting more than 2 images or re-selecting an already selected image
     if (selectedImages.length >= 2 || img.classList.contains("selected")) {
       return;
     }
 
-    // Select current image
     img.classList.add("selected");
     selectedImages.push(img);
 
-    // Show reset button on first click
-    if (selectedImages.length > 0) {
+    // Show reset button on first image click
+    if (selectedImages.length === 1) {
       resetButton.style.display = "inline-block";
     }
 
@@ -76,6 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize on load
+  // Run initial state setup
   init();
 });
