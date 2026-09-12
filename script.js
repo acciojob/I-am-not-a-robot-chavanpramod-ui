@@ -8,26 +8,25 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedImages = [];
 
   function init() {
-    // Reset state
     container.innerHTML = "";
     selectedImages = [];
     
-    // Explicitly hide buttons on initial state / reset
-    resetButton.style.display = "none";
-    verifyButton.style.display = "none";
+    // Hide buttons using CSS class
+    resetButton.classList.add("hidden");
+    verifyButton.classList.add("hidden");
     resultPara.innerText = "";
 
-    // Pick a random image class to duplicate
+    // Pick 1 random class to duplicate
     const duplicateIndex = Math.floor(Math.random() * imageClasses.length);
     const imagesToRender = [...imageClasses, imageClasses[duplicateIndex]];
 
-    // Shuffle images (Fisher-Yates shuffle)
+    // Fisher-Yates shuffle algorithm
     for (let i = imagesToRender.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [imagesToRender[i], imagesToRender[j]] = [imagesToRender[j], imagesToRender[i]];
     }
 
-    // Render image elements dynamically
+    // Render image nodes dynamically
     imagesToRender.forEach((className, index) => {
       const img = document.createElement("img");
       img.classList.add(className);
@@ -47,25 +46,23 @@ document.addEventListener("DOMContentLoaded", () => {
     img.classList.add("selected");
     selectedImages.push(img);
 
-    // Show reset button on first image click
+    // Show reset button on first selection
     if (selectedImages.length === 1) {
-      resetButton.style.display = "inline-block";
+      resetButton.classList.remove("hidden");
     }
 
-    // Show verify button only when exactly 2 images are selected
+    // Show verify button when 2 tiles are selected
     if (selectedImages.length === 2) {
-      verifyButton.style.display = "inline-block";
+      verifyButton.classList.remove("hidden");
     }
   }
 
-  // Reset Button Logic
   resetButton.addEventListener("click", () => {
     init();
   });
 
-  // Verify Button Logic
   verifyButton.addEventListener("click", () => {
-    verifyButton.style.display = "none";
+    verifyButton.classList.add("hidden");
 
     const [first, second] = selectedImages;
     if (first.dataset.class === second.dataset.class) {
@@ -75,6 +72,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Run initial state setup
   init();
 });

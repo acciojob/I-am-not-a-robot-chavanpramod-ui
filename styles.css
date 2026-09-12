@@ -9,9 +9,11 @@
 .img3 {
   content: url("https://picsum.photos/200/300?grayscale");
 }
+
 .img4 {
   content: url("https://picsum.photos/200/300/");
 }
+
 .img5 {
   content: url("https://picsum.photos/200/300.jpg");
 }
@@ -37,4 +39,9 @@ p {
 
 button {
   margin: 20px;
+}
+
+/* Added helper class to guarantee hidden state before JS executes */
+.hidden {
+  display: none !important;
 }
